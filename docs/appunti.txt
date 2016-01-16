@@ -1,0 +1,60 @@
+TODO: cerca di strutturare quei log che ora sono espansi in verticale (download e associazione) in orizzontale avendo righe "da - a" quindi magari ho n righe ma per una certa data, la riga è unica per revisione/dipendente!
+
+REGOLA:
+[{name: 'funzione', value: 'Macc'},{name: 'funzione', value: 'Sop'}]
+
+
+ id |       type       |     key     |        value
+----+------------------+-------------+---------------------
+  1 | PropertyConstant | employee_id | Dipendente
+ 25 | PropertyConstant | funzione    | Funzione
+ 26 |                  | Macc        | 1AG
+ 27 |                  | Capt        | Capo Treno
+ 32 |                  | istruttore  | Istruttore
+ 34 |                  | Dir         | Coordinamento
+ 35 |                  | Esercizio   | Personale Esercizio
+ 36 |                  | Controll    | Commerciale
+ 37 |                  | Ver         | Verificatore
+ 38 |                  | Prod        | Produzione
+ 39 |                  | Man         | Manutenzione
+ 33 |                  | Sop         | Operatore SO
+ 40 |                  | SGS         | SGS
+ 42 | PropertyConstant | ANNULLATI   | DOC ANNULLATI
+
+REGOLA TESTRESCA
+
+[25_39, 25_38, 25_40+25_32+25_26]
+{funzione:=Man,funzione:=Prod,funzione:=SGS++funzione:=istruttore++funzione:=Macc}
+
+
+Funzione è "Manutenzione" oppure
+Funzione è "Produzione" oppure
+Funzione è "SGS" e Funzione è "Istruttore" e Funzione è "1AG"
+
+[
+	{name: 'funzione', value: 'Man'},
+	{name: 'funzione', value: 'Prod'},
+	{
+		group: [
+			{name: 'funzione', value: 'SGS'},
+			{name: 'funzione', value: 'Istruttore'},
+			{name: 'funzione', value: 'Macc'},
+		]
+	}
+]
+
+ [#<Property id: 2949, target_id: 28, target_type: "RoleDistribution", name: "funzione", value: "Man", ancestry: nil, children_count: 0, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: false>,
+ #<Property id: 2950, target_id: 28, target_type: "RoleDistribution", name: "funzione", value: "Prod", ancestry: nil, children_count: 0, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: false>,
+ #<Property id: 2951, target_id: 28, target_type: "RoleDistribution", name: nil, value: nil, ancestry: nil, children_count: 3, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: nil>]
+
+Children dell'ultima
+
+[#<Property id: 2954, target_id: nil, target_type: nil, name: "funzione", value: "SGS", ancestry: 2951, children_count: 0, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: false>,
+ #<Property id: 2953, target_id: nil, target_type: nil, name: "funzione", value: "istruttore", ancestry: 2951, children_count: 0, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: false>,
+ #<Property id: 2952, target_id: nil, target_type: nil, name: "funzione", value: "Macc", ancestry: 2951, children_count: 0, require_value: false, created_at: "2015-11-11 23:37:06", updated_at: "2015-11-11 23:37:06", locked: false>]
+
+
+ Dipendente Aroma:
+
+Funzione è "Manutenzione" oppure
+Funzione è "Coordinamento"

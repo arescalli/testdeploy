@@ -1,0 +1,204 @@
+* Ability
+abilty can can
+
+* AcceptanceStatus
+situazione corrente per employee e revisione dello stato di accettazione. 1 riga per employee, revision, anche con false
+
+* AlertConfig
+configurazione degli alert per tipi di documento, user e config dell'alert operativo
+
+* AnomalyReason
+anagrafica delle ragioni di anomalia per la risoluzione
+
+* AuditLog
+Chiedere!!
+
+* Cluster
+Rappresenta il legame tra documenti ( di conseguenza revisions, attraverso i documents), employee e form templates
+
+* ClusterObserver
+Osserva l'after save di Document, Employee, RoleDistribution e FormTemplate
+
+* CustomTab
+Tab custom da passare all'applicazione con url e title
+
+* CustomTabObserver
+Osserva CustomTab e cancella la cache lato server nell'after save e after destroy
+
+* DeliveryStatusLog
+Log di scaricamento, per employee e revisione. Ci possono essere più log (true, false, true, false) che indicano lo stato di download in quel preciso istante. Non ci possono essere però due log consecutivi con lo stesso valore (ovviamente contestualizzati per revisione + dipendente)
+
+* DistributionAlert
+Configurazione dell'alert di distribuzione (document type ids, notify to user ids, quanti giorni prima notificare)
+
+* DistributionEngine
+Non è un modello, è l'engine che si occupa di effettuare la distribuzione agendo sui cluster e chiamando metodi di classe del distribution list log
+
+* DistributionListLog
+Cuore di tutto railmobile. Rappresenta per revisione e employee se il documento gli compete o meno nella data/ora di riferimento. Ci possono essere più righe per ogni revision/employee sempre col principio che da una riga a quella immediatamente successiva, lo stato di associated deve essere differente (deve cambiare). Dato un certo momento temporale, sapere se una revisione è associata ad un dipendente, significa partire da questa tabella prima di tutto
+
+* DistributionStatus
+Nuova tabella che è stata creata durante l'ultimo aggiornamento corposo di RailMobile per poter sapere qual è lo stato di distribuzione corrente ovvero, per ciascun employee, per ciascuna revisione, quando quella revisione è stata associata (distributed at), scaricata.
+Domanda: è usata???
+
+
+* Document
+Document railmobile
+
+* DocumentFolder
+Folder per documenti (struttura annidata)
+
+* DocumentFolderObserver
+Osserva :document_type, :document_folder. after save e after destroy cancella la cache
+
+* DocumentRevision
+Revisione del documento con valid_From e valid_to
+
+* DocumentRevisionExtra
+Rappresenta extra info per le document revision. CHIEDERE! dovrebbe essere legato ad Aster
+
+* DocumentRevisionObserver
+Osserva document revision, serve per inviare notifiche mail dopo il destroy
+
+* DocumentType
+Tipo di documento, ha un legame di has_many con le folders (PERCHE???), comprende flag per dire se è la cartella aster
+
+* Employee
+Dipendente
+
+* FirstDeliveryStatusLog
+Primo log di downlaod, ma non pare usato!!
+
+* FormSubmission
+Dati compilati dei form
+
+* FormTemplate
+Corrisponde al document, quindi è legato ai cluster, agli employee tramite i cluster, ha una regola di distribuzione. è una classe astratta
+VERIFICA se passa per delle sorte di "revisioni"
+
+* SimpleFormTemplate
+Chiedi ma dovrebbe essere il template custom costruito a mano con l'html che facciamo noi, eredita da FormTemplate
+
+* CustomFormTemplate
+Chiedi ma dovrebbe essere il template custom costruito con lo strumento dinamico, eredita da FormTemplate
+
+* FormTemplateVersion
+VERIFICA non pare essere usato!
+
+* Group
+Gruppo di utenti, standard
+
+* IfasterConfirmedDate
+VERIFICA, cmq dovrebbe essere legato alle richieste aster
+
+* IfasterDocument
+Documento di aster, è legato ad un employee, revisione e contiene i link ai file di aster
+
+* IfasterExtraDocumentName
+Come la ifasterdate, VERIFICA!
+
+* IfasterPackage
+Non è un modello, rappresenta e manipola i file zippati di aster (VERIFICA!)
+
+* IfasterRemoteDocument
+Ha questi campi  "date", "train_number", "url", "file_name", "error"
+
+* MySettings
+Non usato?? VERIFICA!
+
+* Permission
+Permessi serializzati, solito standard
+
+* PermissionCacheObserver
+Osserva user e group e imposta la cache dei permessi
+
+* Property
+Meccanismo delle proprietà tramite tabella, con metodi per serializzare
+
+* RoleDistribution
+Regola di distribuzione, ha più documenti associati, form templates; ha più proprietà che la caratterizzano (properties of type Property)
+
+* Settings
+Base per settaggi
+
+* SyncLog
+Log di sync
+
+* Tenant
+Tenant (standard)
+
+* TranslationsTodo
+Traduzioni
+
+* User
+Utenti
+
+* WebFavouriteUrl
+URL per l'elenco dei favoriti
+
+* WebFilterUrl
+URL per filtrare gli url nell'app
+
+
+**** Constants ****
+* Constant
+Costanti (configurazione base per proprietà). (VERIFICA!)
+
+* PropertyConstant
+Costanti di proprietà (VERIFICA!)
+
+
+**** Reports ****
+* AcceptanceAnomaliesReport
+Report anormalità di distribuzione. VERIFICA E DESCRIVI MEGLIO!
+
+* BaseReport
+Classe base per report
+
+* DeliveryAcceptanceCountReport
+Non usato!!!
+
+* DeliveryAcceptanceReport
+Viene usato nell'operative alert, nell'employee document types report come base. Dovrebbe indicare per ciascun dipendente/revisione
+se è stato scaricato e/o accettato, Viene usato per notificare notify_not_delivered_accepted_worker (vedi alert).
+VERIFICA E DESCRIVI MEGLIO!
+
+* DeliveryAndAcceptanceUnionReport
+Unisce accettazioni e scaricamenti e viene usato nel widget (distribution_report_widget)
+VERIFICA E DESCRIVI MEGLIO!
+
+* DeviceChangedReport
+Report cambi di device
+VERIFICA E DESCRIVI MEGLIO!
+
+* DistributionListReport
+Dove: Liste di distribuzione. http://localhost:3000/admin/distribution_list_report/index
+Rappresenta in un dato momento, per documento, dipendente, in che data/ora il dipendente ha accettato il documento e quando l'ha scaricato per la prima volta. Compare però un "no" se il dipendente non l'ha accettato pur competendogli
+VERIFICA E DESCRIVI MEGLIO!
+
+* DistributionStatusReport
+Si basa sullo stato attuale per costruire i widget
+Dove: employee_report_widget, distribution_report_widget
+VERIFICA E DESCRIVI MEGLIO!
+
+* DocumentRevisionWithExtraReport
+Usato per i report aster, verifica da dove. Cmq fa una join tra i document revision e gli extra da mostrare
+VERIFICA E DESCRIVI MEGLIO!
+
+* EmployeeDocumentTypesReport
+Usato sia nella mobile sync, che per mostrare la visualizzazione corrente del dipendente loggato. è il livello di report per dipendente
+VERIFICA E DESCRIVI MEGLIO!
+
+* IfasterDistributionReport
+Usato: Report documenti treno, http://localhost:3000/admin/ifaster_distribution_report.
+Colonne: Numero treno,Data treno, Stazione, Documento, Dipendente, Accettato il, Prima ricezione dispositivo
+VERIFICA E DESCRIVI MEGLIO!
+
+* OperativeDistributionReport
+Serve per il report operativo (approfondisci cosa fa questo report)
+VERIFICA E DESCRIVI MEGLIO!
+
+* UserDocumentsToDownloadReport
+Usato per le push notifications.
+Colonne:   column :to_download, user_id, :document_revision_ids
+VERIFICA E DESCRIVI MEGLIO!
