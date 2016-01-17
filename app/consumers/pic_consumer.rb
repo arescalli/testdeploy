@@ -5,7 +5,9 @@ class PicConsumer
   def process(message)
     # mark_payment_as_failed(message[:id])
     # PicImporterWorker.new.execute('test')
-    puts 'Sono il pic importer!'
-    Rails.logger.info 'Sono il pic importerrrrrr'
+    5000.times do 
+    	o = OpenStruct.new(train: 1, date: Date.today)
+    	Rails.logger.info 'Sono il pic importerrrrrr'
+    end
   end
 end
